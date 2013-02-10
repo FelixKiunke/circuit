@@ -1,0 +1,16 @@
+{
+	"name": "nib",
+	"description": "A transparent Stylus extension that lets you choose which browsers you need to support",
+	"version": "0.1.0",
+	"author": "Felix Kiunke <mail@fkiunke.com>",
+	"keywords": ["css", "stylus", "stylesheet", "preprocessor", "mixin"],
+	"repository": "git://github.com/felixkiunke/circuit.git",
+	"main": "lib/index.js",
+	"engines": { "node": "*" },
+	"bin": { "circuit": "bin/circuit" },
+	"dependencies": {
+		"connect": "1.x",
+		"stylus": "*",
+		"canvas": "*"
+	}
+}
