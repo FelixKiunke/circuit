@@ -1,0 +1,28 @@
+-c-display-values =\
+(table-cell table-column table-column-group table-footer-group table-header-group \
+table-row table-row-group flex inline-flex grid inherit inline-grid run-in block ruby ruby-base \
+ruby-text ruby-base-container ruby-text-container -ms-flexbox -ms-inline-flexbox inline -ms-grid \
+-ms-inline-grid none list-item inline-block inline-table table table-caption)
+
+get(obj, key)
+	return obj[i][1] if obj[i][0] == key for i in 0...length(obj)
+
+display(value)
+	if value == flex
+		display-flex(true)
+
+	else if value in (flexbox box)
+		warn("Please use the new 'display: flex'")
+
+	else if !(value in -c-display-values)
+		corrected-value = -c-find-nearest(value, -c-display-values);
+		warning-string = "Unrecognized 'display:' value '" + -c-color(value, "red") + "'"
+		if (corrected-value)
+			warning-string = warning-string + ", did you mean '" +\
+				-c-color(corrected-value, "light white on green") + "'?"
+		warn(warning-string)
+		
+		display arguments
+
+	else
+		display arguments

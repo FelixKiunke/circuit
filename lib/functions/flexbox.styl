@@ -1,0 +1,37 @@
+-c-flex-no-warning ?= false
+
+display-flex(internal = false)
+	if (internal != true)
+		error("'display-flex' is meant for internal use — you can simply type 'display: flex'")
+		return
+
+	support = support-for("flexbox")
+
+	for i in 0...length(support)
+		support-set = support[i]
+
+		if support-set == "official"
+			()
+		else
+			flex-version = get(support-set, flex-version) || official
+			flex-prefix = unquote( get(support-set, prefix) || "" )
+
+			if flex-version == 2009
+				display "%sbox" % flex-prefix
+			else if flex-version == 2011
+				display "%sflexbox" % flex-prefix
+			else if flex-prefix != unquote("")
+				display "%sflex" % flex-prefix
+
+	display flex
+
+	if -c-flex-no-warning != true
+		warn("The transparent " + -c-color("flexbox", "green") + " mixins are " + \
+			-c-color("not yet fully implemented", "light red on black"))
+		-c-log("  Either way, you should " + -c-color("avoid", "light white on red") + " flexbox " + \
+			"because it lacks browser support.")
+		-c-log("  Turn this message of by setting the " + -c-color("-c-flex-no-warning", "blue") + \
+			" variable to " + -c-color("true", "purple") + ".");
+
+		// Prevent repetitive warnings
+		-c-flex-no-warning = true

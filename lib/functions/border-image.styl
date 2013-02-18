@@ -1,0 +1,62 @@
+-c-border-image-no-warning ?= false
+
+border-image()
+	support = prefixes("border-image")
+
+	for prefix in support
+		add-property(unquote(prefix + "border-image"), arguments)
+	border-image arguments
+
+-c-border-image-prop(prop, values)
+	show-warning = false
+	older-browsers = ()
+
+	support = support-for("border-image")
+	
+	for i in 0...length(support)
+		support-set = support[i]
+
+		if support-set == "official"
+			()
+		else
+			full-support = get(support-set, full) || false
+			prefix = unquote( get(support-set, prefix) || "" )
+			if full-support
+				add-property(prefix + prop, values)
+			else
+				show-warning = true
+				if browser = get(support-set, browser)
+					push(older-browsers, browser)
+
+	{prop} values
+
+	if show-warning && -c-border-image-no-warning != true
+		if length(older-browsers) > 1
+			browsers-string = " in " + \
+				join(", ", older-browsers[ 0...( length(older-browsers) - 1 ) ])
+			browsers-string = browsers-string + " & " + last(older-browsers)
+		else if length(older-browsers) == 1
+			browsers-string = " in " + older-browsers[0]
+		else
+			browsers-string = ""
+
+		warn("Some older implementations" + browsers-string + " only support the " + \
+			-c-color("border-image", "green") + " SHORTHAND, but not the individual properties " + \
+			"like " + -c-color(prop, "red") + ".")
+		-c-log("  Turn this message off by setting the " + \
+			-c-color("-c-border-image-no-warning", "blue") + \
+			" variable to " + -c-color("true", "purple") + ".");
+
+		// Prevent repetitive warnings
+		-c-border-image-no-warning = true
+
+border-image-source()
+	-c-border-image-prop("border-image-source", arguments)
+border-image-slice()
+	-c-border-image-prop("border-image-slice", arguments)
+border-image-width()
+	-c-border-image-prop("border-image-width", arguments)
+border-image-outset()
+	-c-border-image-prop("border-image-outset", arguments)
+border-image-repeat()
+	-c-border-image-prop("border-image-repeat", arguments)
